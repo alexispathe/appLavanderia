@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-  ]
+, "app/orders/index.js", "app/home/index.js", "hooks/useAuth.js", "app/(tabs)/index.js", "app/(auth)/register.js", "app/(auth)/login.js", "app/orders/newOrder/index.js", "app/orders/newOrder/addClient.js", "app/orders/newOrder/existingClients.js", "app/orders/orderDetails.js", "app/_layout.tsx", "app/items/addItem.js", "app/orders/updateOrder.js", "contexts/AuthContext.js", "app/hooks/useColorScheme.js", "hooks/useThemeColor.ts", "components/ExternalLink.js"  ]
 }
