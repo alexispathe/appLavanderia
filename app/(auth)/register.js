@@ -1,6 +1,6 @@
 // app/(auth)/register.js
+import React, { useState } from 'react';
 import { Link, useRouter } from 'expo-router';
-import { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -15,10 +15,10 @@ export default function RegisterScreen() {
       alert('Por favor, completa todos los campos.');
       return;
     }
-    // Lógica de creación de cuenta (mock)
-    // Aquí puedes agregar lógica real de registro
-    login({ email }); // Opcional: Auto login
-    router.push('(tabs)');
+    // Aquí agregarías la lógica real de registro
+    // Por ahora, simulamos un registro exitoso
+    login({ email });
+    router.replace('(tabs)'); // Usa replace para evitar volver a la pantalla de registro
   };
 
   return (
@@ -40,7 +40,7 @@ export default function RegisterScreen() {
         onChangeText={setPassword}
       />
       <Button title="Crear" onPress={handleRegister} />
-      <Link href="(auth)/login" style={styles.link}>
+      <Link href="login" style={styles.link}>
         Ya tengo una cuenta
       </Link>
     </View>
@@ -48,8 +48,26 @@ export default function RegisterScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 20 },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16, textAlign: 'center' },
-  input: { borderWidth: 1, marginBottom: 12, padding: 8, borderRadius: 4 },
-  link: { marginTop: 8, color: 'blue', textAlign: 'center' },
+  container: { 
+    flex: 1, 
+    justifyContent: 'center', 
+    padding: 20 
+  },
+  title: { 
+    fontSize: 24, 
+    fontWeight: 'bold', 
+    marginBottom: 16, 
+    textAlign: 'center' 
+  },
+  input: { 
+    borderWidth: 1, 
+    marginBottom: 12, 
+    padding: 8, 
+    borderRadius: 4 
+  },
+  link: { 
+    marginTop: 8, 
+    color: 'blue', 
+    textAlign: 'center' 
+  },
 });

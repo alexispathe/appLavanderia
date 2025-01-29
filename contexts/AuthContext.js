@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Cargar el usuario desde AsyncStorage al iniciar la app
   useEffect(() => {
     const loadUser = async () => {
       try {
@@ -20,11 +21,11 @@ export const AuthProvider = ({ children }) => {
         if (storedUser) {
           setUser(JSON.parse(storedUser));
         } else {
-          setUser(null); // Asegúrate de establecer `user` en `null` si no hay usuario
+          setUser(null);
         }
       } catch (error) {
         console.log('Error cargando usuario:', error);
-        setUser(null); // En caso de error, también establece `user` en `null`
+        setUser(null);
       } finally {
         setLoading(false);
       }
