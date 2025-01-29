@@ -1,6 +1,6 @@
 // app/profile/index.js
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../../contexts/AuthContext';
 import { useRouter } from 'expo-router';
 
 export default function ProfileScreen() {

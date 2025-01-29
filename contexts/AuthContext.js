@@ -4,27 +4,29 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const AuthContext = createContext({
   user: null,
-  loading: true, // Agregado estado de carga
+  loading: true,
   login: () => {},
   logout: () => {},
 });
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // Inicializa en true
+  const [loading, setLoading] = useState(true);
 
-  // Cargar el usuario desde AsyncStorage al iniciar la app
   useEffect(() => {
     const loadUser = async () => {
       try {
         const storedUser = await AsyncStorage.getItem('user');
         if (storedUser) {
           setUser(JSON.parse(storedUser));
+        } else {
+          setUser(null); // Asegúrate de establecer `user` en `null` si no hay usuario
         }
       } catch (error) {
         console.log('Error cargando usuario:', error);
+        setUser(null); // En caso de error, también establece `user` en `null`
       } finally {
-        setLoading(false); // Finaliza la carga independientemente del resultado
+        setLoading(false);
       }
     };
     loadUser();
