@@ -1,34 +1,6 @@
 // app/(tabs)/index.js
-import { Tabs } from 'expo-router';
+import HomeScreen from '../home/index'; // Asegúrate de la ruta correcta
 
-export default function TabLayout() {
-  return (
-    <Tabs>
-      <Tabs.Screen
-        name="home/index"
-        options={{
-          title: 'Inicio',
-          // Puedes agregar iconos o ajustes de tab aquí
-        }}
-      />
-      <Tabs.Screen
-        name="items/index"
-        options={{
-          title: 'Ítems',
-        }}
-      />
-      <Tabs.Screen
-        name="orders/index"
-        options={{
-          title: 'Órdenes',
-        }}
-      />
-      <Tabs.Screen
-        name="profile/index"
-        options={{
-          title: 'Perfil',
-        }}
-      />
-    </Tabs>
-  );
+export default function HomeTab() {
+  return <HomeScreen />;
 }

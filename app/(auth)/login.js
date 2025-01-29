@@ -18,7 +18,7 @@ export default function LoginScreen() {
     // Validar credenciales (mock)
     // Aquí puedes agregar lógica real de autenticación
     login({ email }); // Puedes agregar más datos de usuario si lo deseas
-    router.push('(tabs)');
+    router.push('../home/');
   };
 
   return (

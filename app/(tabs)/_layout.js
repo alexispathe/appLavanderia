@@ -1,16 +1,14 @@
-// app/tabs.js o donde estés manejando los tabs
+// app/(tabs)/_layout.js
 import { Tabs } from 'expo-router';
-import { Platform, Button } from 'react-native'; // Asegúrate de importar Button aquí también
+import { Platform } from 'react-native';
 import { HapticTab } from '@/components/HapticTab';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { useRouter } from 'expo-router'; // Necesitas importar useRouter para la navegación
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const router = useRouter(); // Usar el hook para redirigir a la pantalla de bienvenida
 
   return (
     <Tabs
@@ -29,25 +27,15 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Homes',
+          title: 'Inicio',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-          tabBarButton: () => <Button title="Ir a Bienvenida" onPress={() => router.push("/welcome")} />,
-          
         }}
       />
       <Tabs.Screen
         name="explore"
         options={{
-          title: 'Explore',
+          title: 'Explorar',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-      {/* Aquí puedes agregar un botón que navegue a la pantalla de bienvenida */}
-      <Tabs.Screen
-        name="welcome"
-        options={{
-          title: 'Bienvenida',
-          tabBarButton: () => <Button title="Ir a Bienvenida" onPress={() => router.push("/welcome")} />,
         }}
       />
     </Tabs>

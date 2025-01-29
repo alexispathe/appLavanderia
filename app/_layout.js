@@ -31,11 +31,23 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <AppNavigator />
-        <StatusBar style="auto" />
-      </ThemeProvider>
+      <AppContent colorScheme={colorScheme} />
+      <StatusBar style="auto" />
     </AuthProvider>
+  );
+}
+
+function AppContent({ colorScheme }) {
+  const { loading } = useAuth();
+
+  if (loading) {
+    return null; // Puedes reemplazar esto con una pantalla de carga personalizada
+  }
+
+  return (
+    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <AppNavigator />
+    </ThemeProvider>
   );
 }
 
