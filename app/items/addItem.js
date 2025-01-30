@@ -1,8 +1,9 @@
 // app/items/addItem.js
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
-import { View, Text, TextInput, Button, StyleSheet, Picker } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Picker } from '@react-native-picker/picker';  // Importa desde '@react-native-picker/picker'
 
 export default function AddItemScreen() {
   const router = useRouter();

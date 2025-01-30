@@ -1,27 +1,28 @@
-// app/items/index.js
-import { Link, useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native'; // Importa useNavigation
 
 export default function ItemsScreen() {
-  const router = useRouter();
+  const navigation = useNavigation();  // Usa useNavigation aquí
   const [items, setItems] = useState([]);
 
-  useEffect(() => {
-    const loadItems = async () => {
-      try {
-        const storedItems = await AsyncStorage.getItem('items');
-        const parsed = storedItems ? JSON.parse(storedItems) : [];
-        setItems(parsed);
-      } catch (error) {
-        console.log('Error cargando ítems:', error);
-      }
-    };
-    const unsubscribe = router.addListener('focus', loadItems); // Actualizar al volver a la pantalla
-    loadItems();
-    return unsubscribe;
-  }, [router]);
+  useFocusEffect(
+    useCallback(() => {
+      const loadItems = async () => {
+        try {
+          const storedItems = await AsyncStorage.getItem('items');
+          const parsed = storedItems ? JSON.parse(storedItems) : [];
+          setItems(parsed);
+        } catch (error) {
+          console.log('Error cargando ítems:', error);
+        }
+      };
+      loadItems();
+    }, [])
+  );
 
   const handleDelete = (id) => {
     Alert.alert(
@@ -46,7 +47,7 @@ export default function ItemsScreen() {
   };
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.item} onPress={() => router.push(`items/editItem?itemId=${item.id}`)}>
+    <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('items/editItem', { itemId: item.id })}>
       <Text style={styles.itemName}>{item.name}</Text>
       <Text>Precio: ${item.price.toFixed(2)}</Text>
       <Text>Tipo de Medida: {item.measureType}</Text>

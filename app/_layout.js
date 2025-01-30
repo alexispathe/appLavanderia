@@ -83,8 +83,6 @@ function AuthOrAppStack() {
       {/* Otras rutas/ventanas fuera de las tabs que quieras: */}
       <Stack.Screen name="items/addItem" options={{ title: 'Agregar Ítem' }} />
       <Stack.Screen name="items/editItem" options={{ title: 'Editar Ítem' }} />
-      <Stack.Screen name="items/index" options={{ title: 'Listar Ítems' }} />
-      <Stack.Screen name="orders/index" options={{ title: 'Gestionar Órdenes' }} />
       <Stack.Screen name="orders/orderDetails" options={{ title: 'Detalles de Orden' }} />
       <Stack.Screen name="orders/updateOrder" options={{ title: 'Actualizar Orden' }} />
       <Stack.Screen name="orders/newOrder/addClient" options={{ title: 'Agregar Cliente' }} />

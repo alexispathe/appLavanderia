@@ -10,12 +10,12 @@ export default function HomeScreen() {
     {
       title: 'Listar Ítems',
       description: 'Ver y gestionar los ítems existentes',
-      navigateTo: '/items/index', 
+      navigateTo: '/items/index',
     },
     {
       title: 'Gestionar Órdenes',
       description: 'Crear y gestionar órdenes de lavado',
-      navigateTo: '/orders/index', 
+      navigateTo: '/(tabs)/orders', // Si prefieres ir directo a la pantalla de Órdenes
     },
   ];
 

@@ -1,10 +1,11 @@
-// app/orders/index.js
+// app/(tabs)/orders/index.js
 import { Link } from 'expo-router';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput } from 'react-native';
-import { useEffect, useState } from 'react';
+import { useState, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from '@react-native-picker/picker';
 import { useRouter } from 'expo-router';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function OrdersScreen() {
   const router = useRouter();
@@ -12,22 +13,22 @@ export default function OrdersScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('Todos');
 
-  useEffect(() => {
-    const loadOrders = async () => {
-      try {
-        const storedOrders = await AsyncStorage.getItem('orders');
-        const parsed = storedOrders ? JSON.parse(storedOrders) : [];
-        // Ordenar por fecha de creación descendente
-        parsed.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        setOrders(parsed);
-      } catch (error) {
-        console.log('Error cargando órdenes:', error);
-      }
-    };
-    const unsubscribe = router.addListener('focus', loadOrders); // Actualizar al volver a la pantalla
-    loadOrders();
-    return unsubscribe;
-  }, [router]);
+  useFocusEffect(
+    useCallback(() => {
+      const loadOrders = async () => {
+        try {
+          const storedOrders = await AsyncStorage.getItem('orders');
+          const parsed = storedOrders ? JSON.parse(storedOrders) : [];
+          // Ordenar por fecha de creación descendente
+          parsed.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          setOrders(parsed);
+        } catch (error) {
+          console.log('Error cargando órdenes:', error);
+        }
+      };
+      loadOrders();
+    }, [])
+  );
 
   const filteredOrders = orders.filter((order) => {
     const matchesSearch =

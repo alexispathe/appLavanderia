@@ -34,6 +34,26 @@ export default function TabLayout() {
         }}
       />
 
+      {/* NUEVA PESTAÑA PARA ÓRDENES */}
+      <Tabs.Screen
+        name="orders"  
+        options={{
+          title: 'Órdenes',
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="list.bullet.rectangle.fill" color={color} />
+          ),
+        }}
+      />
+       <Tabs.Screen
+        name="items"  
+        options={{
+          title: 'Items',
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="list.bullet.rectangle.fill" color={color} />
+          ),
+        }}
+      />
+
       <Tabs.Screen
         name="profile/index"
         options={{
