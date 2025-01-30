@@ -1,4 +1,4 @@
-// app/home/index.js
+// app/(tabs)/home/index.js
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
@@ -7,11 +7,6 @@ export default function HomeScreen() {
   const router = useRouter();
 
   const menuOptions = [
-    {
-      title: 'Agregar Nuevo Ítem',
-      description: 'Añadir diferentes tipos de prendas (e.g., chamarras, toallas, cobijas, peluches, etc.)',
-      navigateTo: '/items/addItem', 
-    },
     {
       title: 'Listar Ítems',
       description: 'Ver y gestionar los ítems existentes',
@@ -22,12 +17,6 @@ export default function HomeScreen() {
       description: 'Crear y gestionar órdenes de lavado',
       navigateTo: '/orders/index', 
     },
-    {
-      title: 'Perfil',
-      description: 'Ver y editar tu perfil',
-      navigateTo: '/profile/index', 
-    },
-    // Puedes agregar más opciones aquí según tus necesidades
   ];
 
   return (

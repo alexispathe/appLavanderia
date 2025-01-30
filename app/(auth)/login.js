@@ -18,7 +18,7 @@ export default function LoginScreen() {
     // Aquí agregarías la lógica real de autenticación
     // Por ahora, simulamos un login exitoso
     login({ email });
-    router.replace('(tabs)'); // Usa replace para evitar volver a la pantalla de login
+    router.replace('/(tabs)/home'); // Usa replace para evitar volver a la pantalla de login
   };
 
   return (

@@ -1,3 +1,4 @@
+// app/_layout.js
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { useFonts } from 'expo-font';
@@ -23,7 +24,7 @@ export default function RootLayout() {
     }
   }, [fontsLoaded]);
 
-  // Mientras no carguen las fuentes, no mostramos la UI.
+  // Mientras no carguen las fuentes, no mostramos nada.
   if (!fontsLoaded) {
     return null;
   }
@@ -41,17 +42,17 @@ export default function RootLayout() {
 function AuthOrAppStack() {
   const { loading, user } = useAuth();
 
-  // Mientras no sepamos si hay user en AsyncStorage, muestra un “loading”.
+  // Mientras no sepamos si hay user en AsyncStorage, muestra un “loading” o null.
   if (loading) {
-    return null; // O algún splash/loading en lugar de null.
+    return null; 
   }
 
-  // Si NO hay usuario logueado, mostramos el stack de autenticación.
+  // Si NO hay usuario logueado, mostramos Stack de autenticación
   if (!user) {
     return (
       <Stack>
         <Stack.Screen
-          name="(auth)/welcome"
+          name="/index.js"
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -70,16 +71,16 @@ function AuthOrAppStack() {
     );
   }
 
-  // Si SÍ hay usuario logueado, mostramos las pantallas de la app.
+  // Si SÍ hay usuario logueado, mostramos las pantallas de la app (las tabs + extras)
   return (
     <Stack>
-      {/* Grupo de tabs (home, profile, etc.) */}
+      {/* Tu layout de Tabs */}
       <Stack.Screen
         name="(tabs)"
         options={{ headerShown: false }}
       />
 
-      {/* Rutas extras fuera de las pestañas */}
+      {/* Otras rutas/ventanas fuera de las tabs que quieras: */}
       <Stack.Screen name="items/addItem" options={{ title: 'Agregar Ítem' }} />
       <Stack.Screen name="items/editItem" options={{ title: 'Editar Ítem' }} />
       <Stack.Screen name="items/index" options={{ title: 'Listar Ítems' }} />
