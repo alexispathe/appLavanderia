@@ -3,13 +3,14 @@ import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Picker } from '@react-native-picker/picker';  // Importa desde '@react-native-picker/picker'
+import { Picker } from '@react-native-picker/picker';
 
 export default function AddItemScreen() {
   const router = useRouter();
   const [itemName, setItemName] = useState('');
   const [price, setPrice] = useState('');
   const [measureType, setMeasureType] = useState('unidad'); // 'unidad' o 'kilo'
+  const [category, setCategory] = useState('Ropa');
 
   const handleSave = async () => {
     if (itemName.trim() === '' || price.trim() === '') {
@@ -25,6 +26,7 @@ export default function AddItemScreen() {
         name: itemName,
         price: parseFloat(price),
         measureType,
+        category,
       };
       itemsArray.push(newItem);
       await AsyncStorage.setItem('items', JSON.stringify(itemsArray));
@@ -62,6 +64,18 @@ export default function AddItemScreen() {
         <Picker.Item label="Unidad" value="unidad" />
         <Picker.Item label="Kilo" value="kilo" />
       </Picker>
+
+      <Text style={styles.label}>Categoría:</Text>
+      <Picker
+        selectedValue={category}
+        style={styles.picker}
+        onValueChange={(val) => setCategory(val)}
+      >
+        <Picker.Item label="Ropa" value="Ropa" />
+        <Picker.Item label="Cobija" value="Cobija" />
+        <Picker.Item label="Otro" value="Otro" />
+      </Picker>
+
       <Button title="Guardar" onPress={handleSave} />
     </View>
   );

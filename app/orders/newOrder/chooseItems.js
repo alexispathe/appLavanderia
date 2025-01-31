@@ -31,40 +31,44 @@ export default function ChooseItemsScreen() {
     loadData();
   }, [clientId]);
 
-  const toggleSelectItem = (item) => {
-    if (selectedItems.find((i) => i.id === item.id)) {
-      setSelectedItems(selectedItems.filter((i) => i.id !== item.id));
-    } else {
-      setSelectedItems([...selectedItems, { ...item, quantity: '1' }]);
-    }
+  const handleSelectItem = (item) => {
+    // Ir a pantalla de detalles para ese ítem (peso, talla, cantidad, etc.)
+    router.push(`orders/newOrder/chooseItemDetails?itemId=${item.id}&clientId=${clientId}`);
   };
+
+  // Cargamos del AsyncStorage si ya hay ítems seleccionados, etc.
+  useEffect(() => {
+    const loadSelected = async () => {
+      try {
+        const storedSelectedItems = await AsyncStorage.getItem('selectedItems');
+        if (storedSelectedItems) {
+          setSelectedItems(JSON.parse(storedSelectedItems));
+        }
+      } catch (error) {
+        console.log('Error cargando ítems seleccionados:', error);
+      }
+    };
+    loadSelected();
+  }, []);
 
   const handleNext = () => {
     if (selectedItems.length === 0) {
       alert('Por favor, selecciona al menos un ítem.');
       return;
     }
-    // Guardar los ítems seleccionados temporalmente
-    AsyncStorage.setItem('selectedItems', JSON.stringify(selectedItems))
-      .then(() => {
-        router.push(`orders/newOrder/orderSummary?clientId=${client.id}`);
-      })
-      .catch((error) => {
-        console.log('Error guardando ítems seleccionados:', error);
-        alert('Hubo un error al seleccionar los ítems.');
-      });
+    router.push(`orders/newOrder/orderSummary?clientId=${client.id}`);
   };
 
   const renderItem = ({ item }) => {
-    const isSelected = selectedItems.find((i) => i.id === item.id);
     return (
       <TouchableOpacity
-        style={[styles.item, isSelected && styles.selectedItem]}
-        onPress={() => toggleSelectItem(item)}
+        style={styles.item}
+        onPress={() => handleSelectItem(item)}
       >
         <Text style={styles.itemName}>{item.name}</Text>
-        <Text>Precio: ${item.price.toFixed(2)}</Text>
+        <Text>Precio base: ${item.price.toFixed(2)}</Text>
         <Text>Tipo de Medida: {item.measureType}</Text>
+        {item.category && <Text>Categoría: {item.category}</Text>}
       </TouchableOpacity>
     );
   };
@@ -84,7 +88,6 @@ export default function ChooseItemsScreen() {
         data={items}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
-        extraData={selectedItems}
         ListEmptyComponent={<Text>No hay ítems disponibles. Agrega nuevos ítems.</Text>}
       />
       <Button title="Siguiente" onPress={handleNext} />
@@ -101,9 +104,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 10,
     backgroundColor: '#fff',
-  },
-  selectedItem: {
-    backgroundColor: '#d0f0c0',
   },
   itemName: { fontSize: 18, fontWeight: 'bold' },
 });

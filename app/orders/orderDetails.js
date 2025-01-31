@@ -1,8 +1,9 @@
 // app/orders/orderDetails.js
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { View, Text, Button, StyleSheet, FlatList, Picker } from 'react-native';
+import { View, Text, Button, StyleSheet, FlatList, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect } from 'react';
+import { Picker } from '@react-native-picker/picker';
 
 export default function OrderDetailsScreen() {
   const router = useRouter();
@@ -36,12 +37,19 @@ export default function OrderDetailsScreen() {
   }, [orderId, router]);
 
   const handleUpdate = async () => {
+    if (!order) return;
     try {
       const storedOrders = await AsyncStorage.getItem('orders');
       let ordersArray = storedOrders ? JSON.parse(storedOrders) : [];
       ordersArray = ordersArray.map((o) =>
         o.id === orderId
-          ? { ...o, status, paymentStatus, pickupStatus, updatedAt: new Date().toISOString() }
+          ? {
+              ...o,
+              status,
+              paymentStatus,
+              pickupStatus,
+              updatedAt: new Date().toISOString(),
+            }
           : o
       );
       await AsyncStorage.setItem('orders', JSON.stringify(ordersArray));
@@ -53,14 +61,19 @@ export default function OrderDetailsScreen() {
     }
   };
 
-  const renderItem = ({ item }) => (
-    <View style={styles.orderItem}>
-      <Text style={styles.itemName}>{item.name}</Text>
-      <Text>Cantidad: {item.quantity} {item.measureType}</Text>
-      <Text>Precio Unitario: ${item.price.toFixed(2)}</Text>
-      <Text>Subtotal: ${(item.price * parseFloat(item.quantity)).toFixed(2)}</Text>
-    </View>
-  );
+  const renderItem = ({ item }) => {
+    const qty = parseFloat(item.quantity || '1');
+    const subtotal = item.price * qty;
+    return (
+      <View style={styles.orderItem}>
+        <Text style={styles.itemName}>{item.name}</Text>
+        <Text>Cantidad: {item.quantity} {item.measureType}</Text>
+        {item.size && <Text>Tamaño: {item.size}</Text>}
+        <Text>Precio Unitario: ${item.price.toFixed(2)}</Text>
+        <Text>Subtotal: ${subtotal.toFixed(2)}</Text>
+      </View>
+    );
+  };
 
   if (!order) {
     return (
@@ -81,7 +94,7 @@ export default function OrderDetailsScreen() {
         renderItem={renderItem}
       />
       <Text style={styles.total}>Total: ${order.totalPrice.toFixed(2)}</Text>
-      <Text style={styles.label}>Estado de la Orden:</Text>
+      <Text>Estado de la Orden:</Text>
       <Picker
         selectedValue={status}
         style={styles.picker}
@@ -91,7 +104,7 @@ export default function OrderDetailsScreen() {
         <Picker.Item label="Lavando" value="Lavando" />
         <Picker.Item label="Terminado" value="Terminado" />
       </Picker>
-      <Text style={styles.label}>Estado de Pago:</Text>
+      <Text>Estado de Pago:</Text>
       <Picker
         selectedValue={paymentStatus}
         style={styles.picker}
@@ -100,7 +113,7 @@ export default function OrderDetailsScreen() {
         <Picker.Item label="Pendiente" value="Pendiente" />
         <Picker.Item label="Pagado" value="Pagado" />
       </Picker>
-      <Text style={styles.label}>Estado de Recogida:</Text>
+      <Text>Estado de Recogida:</Text>
       <Picker
         selectedValue={pickupStatus}
         style={styles.picker}
@@ -109,6 +122,7 @@ export default function OrderDetailsScreen() {
         <Picker.Item label="Pendiente" value="Pendiente" />
         <Picker.Item label="Recogido" value="Recogido" />
       </Picker>
+
       <Button title="Actualizar Orden" onPress={handleUpdate} />
       <Button title="Regresar a Órdenes" onPress={() => router.push('orders/index')} />
     </View>
@@ -127,6 +141,5 @@ const styles = StyleSheet.create({
   },
   itemName: { fontSize: 16, fontWeight: 'bold' },
   total: { fontSize: 18, fontWeight: 'bold', marginTop: 10 },
-  label: { marginTop: 10, marginBottom: 5 },
-  picker: { height: 50, width: '100%', marginBottom: 20 },
+  picker: { height: 50, width: '100%', marginVertical: 10 },
 });

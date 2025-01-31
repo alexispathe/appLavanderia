@@ -1,6 +1,6 @@
 // app/orders/newOrder/existingClients.js
 import { useRouter } from 'expo-router';
-import { View, Text, Button, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Button, FlatList, StyleSheet } from 'react-native';
 import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -18,7 +18,7 @@ export default function ExistingClientsScreen() {
         console.log('Error cargando clientes:', error);
       }
     };
-    const unsubscribe = router.addListener('focus', loadClients); // Actualizar al volver a la pantalla
+    const unsubscribe = router.addListener('focus', loadClients);
     loadClients();
     return unsubscribe;
   }, [router]);

@@ -1,4 +1,4 @@
-// app/profile/index.js
+// app/(tabs)/profile/index.js
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { useAuth } from '../../../contexts/AuthContext';

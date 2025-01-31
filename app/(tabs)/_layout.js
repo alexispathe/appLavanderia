@@ -34,7 +34,6 @@ export default function TabLayout() {
         }}
       />
 
-      {/* NUEVA PESTAÑA PARA ÓRDENES */}
       <Tabs.Screen
         name="orders"  
         options={{
@@ -44,13 +43,21 @@ export default function TabLayout() {
           ),
         }}
       />
-       <Tabs.Screen
+      <Tabs.Screen
         name="items"  
         options={{
-          title: 'Items',
+          title: 'Ítems',
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="list.bullet.rectangle.fill" color={color} />
           ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="finance"
+        options={{
+          title: 'Finanzas',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="dollarsign.circle.fill" color={color} />,
         }}
       />
 

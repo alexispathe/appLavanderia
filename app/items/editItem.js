@@ -1,7 +1,7 @@
 // app/items/editItem.js
 import { useState, useEffect } from 'react';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -11,6 +11,7 @@ export default function EditItemScreen() {
   const [itemName, setItemName] = useState('');
   const [price, setPrice] = useState('');
   const [measureType, setMeasureType] = useState('unidad');
+  const [category, setCategory] = useState('Ropa');
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -22,7 +23,8 @@ export default function EditItemScreen() {
         if (item) {
           setItemName(item.name);
           setPrice(item.price.toString());
-          setMeasureType(item.measureType);
+          setMeasureType(item.measureType || 'unidad');
+          setCategory(item.category || 'Ropa');
         } else {
           alert('Ítem no encontrado.');
           router.push('items/index');
@@ -47,7 +49,9 @@ export default function EditItemScreen() {
       const storedItems = await AsyncStorage.getItem('items');
       let itemsArray = storedItems ? JSON.parse(storedItems) : [];
       itemsArray = itemsArray.map((i) =>
-        i.id === itemId ? { ...i, name: itemName, price: parseFloat(price), measureType } : i
+        i.id === itemId
+          ? { ...i, name: itemName, price: parseFloat(price), measureType, category }
+          : i
       );
       await AsyncStorage.setItem('items', JSON.stringify(itemsArray));
       alert('Ítem actualizado exitosamente.');
@@ -91,6 +95,18 @@ export default function EditItemScreen() {
         <Picker.Item label="Unidad" value="unidad" />
         <Picker.Item label="Kilo" value="kilo" />
       </Picker>
+
+      <Text style={styles.label}>Categoría:</Text>
+      <Picker
+        selectedValue={category}
+        style={styles.picker}
+        onValueChange={(val) => setCategory(val)}
+      >
+        <Picker.Item label="Ropa" value="Ropa" />
+        <Picker.Item label="Cobija" value="Cobija" />
+        <Picker.Item label="Otro" value="Otro" />
+      </Picker>
+
       <Button title="Actualizar" onPress={handleUpdate} />
     </View>
   );

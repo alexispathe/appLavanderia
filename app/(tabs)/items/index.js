@@ -1,12 +1,13 @@
+// app/(tabs)/items/index.js
 import { Link } from 'expo-router';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useState, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native'; // Importa useNavigation
+import { useNavigation } from '@react-navigation/native';
 
 export default function ItemsScreen() {
-  const navigation = useNavigation();  // Usa useNavigation aquí
+  const navigation = useNavigation();
   const [items, setItems] = useState([]);
 
   useFocusEffect(
@@ -47,10 +48,14 @@ export default function ItemsScreen() {
   };
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('items/editItem', { itemId: item.id })}>
+    <TouchableOpacity 
+      style={styles.item}
+      onPress={() => navigation.navigate('items/editItem', { itemId: item.id })}
+    >
       <Text style={styles.itemName}>{item.name}</Text>
       <Text>Precio: ${item.price.toFixed(2)}</Text>
       <Text>Tipo de Medida: {item.measureType}</Text>
+      {item.category && <Text>Categoría: {item.category}</Text>}
       <TouchableOpacity onPress={() => handleDelete(item.id)}>
         <Text style={styles.deleteText}>Eliminar</Text>
       </TouchableOpacity>

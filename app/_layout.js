@@ -87,6 +87,7 @@ function AuthOrAppStack() {
       <Stack.Screen name="orders/updateOrder" options={{ title: 'Actualizar Orden' }} />
       <Stack.Screen name="orders/newOrder/addClient" options={{ title: 'Agregar Cliente' }} />
       <Stack.Screen name="orders/newOrder/chooseItems" options={{ title: 'Elegir Ítems' }} />
+      <Stack.Screen name="orders/newOrder/chooseItemDetails" options={{ title: 'Detalles del Ítem' }} />
       <Stack.Screen name="orders/newOrder/existingClients" options={{ title: 'Clientes Existentes' }} />
       <Stack.Screen name="orders/newOrder/orderSummary" options={{ title: 'Resumen de Orden' }} />
     </Stack>
