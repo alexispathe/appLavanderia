@@ -32,7 +32,7 @@ export default function AddItemScreen() {
       await AsyncStorage.setItem('items', JSON.stringify(itemsArray));
       // Opcional: Mostrar confirmación o limpiar el formulario
       alert('Ítem agregado exitosamente.');
-      router.push('items/index'); // Redirigir a la lista de ítems
+      router.back();
     } catch (error) {
       console.log('Error guardando ítem:', error);
       alert('Hubo un error al guardar el ítem.');

@@ -27,7 +27,7 @@ export default function EditItemScreen() {
           setCategory(item.category || 'Ropa');
         } else {
           alert('Ítem no encontrado.');
-          router.push('items/index');
+          router.push('/items');
         }
       } catch (error) {
         console.log('Error cargando ítem:', error);
@@ -55,7 +55,7 @@ export default function EditItemScreen() {
       );
       await AsyncStorage.setItem('items', JSON.stringify(itemsArray));
       alert('Ítem actualizado exitosamente.');
-      router.push('items/index');
+      router.back();
     } catch (error) {
       console.log('Error actualizando ítem:', error);
       alert('Hubo un error al actualizar el ítem.');
