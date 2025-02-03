@@ -1,7 +1,7 @@
 // app/orders/newOrder/existingClients.js
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { FlatList, Button, Title, Card, Paragraph } from 'react-native-paper';
+import { View, StyleSheet, FlatList } from 'react-native';
+import { Button, Title, Card, Paragraph } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
