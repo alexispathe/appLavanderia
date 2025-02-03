@@ -1,12 +1,13 @@
 // app/(auth)/register.js
 import React, { useState } from 'react';
-import { Link, useRouter } from 'expo-router';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { TextInput, Button, Title } from 'react-native-paper';
+import { useRouter } from 'expo-router';
 import { useAuth } from '../../contexts/AuthContext';
 
 export default function RegisterScreen() {
   const router = useRouter();
-  const { login } = useAuth(); // Opcional: Auto login después de registro
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -15,59 +16,44 @@ export default function RegisterScreen() {
       alert('Por favor, completa todos los campos.');
       return;
     }
-    // Aquí agregarías la lógica real de registro
-    // Por ahora, simulamos un registro exitoso
     login({ email });
-    router.replace('(tabs)'); // Usa replace para evitar volver a la pantalla de registro
+    router.replace('(tabs)');
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Crear Cuenta</Text>
+      <Title style={styles.title}>Crear Cuenta</Title>
       <TextInput
-        style={styles.input}
-        placeholder="Correo electrónico"
+        mode="outlined"
+        label="Correo electrónico"
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
         autoCapitalize="none"
+        style={styles.input}
       />
       <TextInput
-        style={styles.input}
-        placeholder="Contraseña"
+        mode="outlined"
+        label="Contraseña"
         secureTextEntry
         value={password}
         onChangeText={setPassword}
+        style={styles.input}
       />
-      <Button title="Crear" onPress={handleRegister} />
-      <Link href="login" style={styles.link}>
+      <Button mode="contained" onPress={handleRegister} style={styles.button}>
+        Crear
+      </Button>
+      <Button onPress={() => router.push('login')} style={styles.link}>
         Ya tengo una cuenta
-      </Link>
+      </Button>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { 
-    flex: 1, 
-    justifyContent: 'center', 
-    padding: 20 
-  },
-  title: { 
-    fontSize: 24, 
-    fontWeight: 'bold', 
-    marginBottom: 16, 
-    textAlign: 'center' 
-  },
-  input: { 
-    borderWidth: 1, 
-    marginBottom: 12, 
-    padding: 8, 
-    borderRadius: 4 
-  },
-  link: { 
-    marginTop: 8, 
-    color: 'blue', 
-    textAlign: 'center' 
-  },
+  container: { flex: 1, justifyContent: 'center', padding: 20, backgroundColor: '#F5F5F5' },
+  title: { textAlign: 'center', marginBottom: 20 },
+  input: { marginBottom: 10 },
+  button: { marginVertical: 5 },
+  link: { marginVertical: 3 },
 });

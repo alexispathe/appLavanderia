@@ -1,13 +1,14 @@
 // app/(tabs)/items/index.js
-import { Link } from 'expo-router';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { useState, useCallback } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState, useCallback } from 'react';
+import { View, StyleSheet, Alert } from 'react-native';
+import { Card, Title, Button, Paragraph } from 'react-native-paper';
+import { FlatList } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
 
 export default function ItemsScreen() {
-  const navigation = useNavigation();
+  const router = useRouter();
   const [items, setItems] = useState([]);
 
   useFocusEffect(
@@ -38,7 +39,7 @@ export default function ItemsScreen() {
 
   const confirmDelete = async (id) => {
     try {
-      const updatedItems = items.filter((item) => item.id !== id);
+      const updatedItems = items.filter(item => item.id !== id);
       setItems(updatedItems);
       await AsyncStorage.setItem('items', JSON.stringify(updatedItems));
     } catch (error) {
@@ -48,47 +49,43 @@ export default function ItemsScreen() {
   };
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity 
-      style={styles.item}
-      onPress={() => navigation.navigate('items/editItem', { itemId: item.id })}
-    >
-      <Text style={styles.itemName}>{item.name}</Text>
-      <Text>Precio: ${item.price.toFixed(2)}</Text>
-      <Text>Tipo de Medida: {item.measureType}</Text>
-      {item.category && <Text>Categoría: {item.category}</Text>}
-      <TouchableOpacity onPress={() => handleDelete(item.id)}>
-        <Text style={styles.deleteText}>Eliminar</Text>
-      </TouchableOpacity>
-    </TouchableOpacity>
+    <Card style={styles.card}>
+      <Card.Title title={item.name} />
+      <Card.Content>
+        <Paragraph>Precio: ${item.price.toFixed(2)}</Paragraph>
+        <Paragraph>Tipo de Medida: {item.measureType}</Paragraph>
+        {item.category && <Paragraph>Categoría: {item.category}</Paragraph>}
+      </Card.Content>
+      <Card.Actions>
+        <Button onPress={() => router.navigate('items/editItem', { itemId: item.id })}>
+          Editar
+        </Button>
+        <Button onPress={() => handleDelete(item.id)} color="red">
+          Eliminar
+        </Button>
+      </Card.Actions>
+    </Card>
   );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Listado de Ítems</Text>
+      <Title style={styles.title}>Listado de Ítems</Title>
       <FlatList
         data={items}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
-        ListEmptyComponent={<Text>No hay ítems registrados.</Text>}
+        ListEmptyComponent={<Paragraph>No hay ítems registrados.</Paragraph>}
       />
-      <Link href="items/addItem" style={styles.addLink}>
+      <Button mode="contained" onPress={() => router.push('items/addItem')} style={styles.addButton}>
         Agregar Nuevo Ítem
-      </Link>
+      </Button>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
-  title: { fontSize: 24, fontWeight: '600', marginBottom: 16, textAlign: 'center' },
-  item: {
-    padding: 15,
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
-    backgroundColor: '#f9f9f9',
-  },
-  itemName: { fontSize: 18, fontWeight: 'bold' },
-  deleteText: { color: 'red', marginTop: 5 },
-  addLink: { color: 'blue', marginTop: 20, textAlign: 'center' },
+  title: { textAlign: 'center', marginBottom: 16 },
+  card: { marginBottom: 10 },
+  addButton: { marginTop: 20 },
 });

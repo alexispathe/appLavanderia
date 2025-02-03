@@ -1,8 +1,10 @@
 // app/orders/newOrder/chooseItems.js
-import { useState, useEffect } from 'react';
-import { useRouter, useLocalSearchParams } from 'expo-router';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Title, Button, Card, Paragraph } from 'react-native-paper';
+import { FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 
 export default function ChooseItemsScreen() {
   const router = useRouter();
@@ -17,9 +19,8 @@ export default function ChooseItemsScreen() {
         // Cargar cliente
         const storedClients = await AsyncStorage.getItem('clients');
         const clientsArray = storedClients ? JSON.parse(storedClients) : [];
-        const foundClient = clientsArray.find((c) => c.id === clientId);
+        const foundClient = clientsArray.find(c => c.id === clientId);
         setClient(foundClient);
-
         // Cargar ítems
         const storedItems = await AsyncStorage.getItem('items');
         const itemsArray = storedItems ? JSON.parse(storedItems) : [];
@@ -32,11 +33,9 @@ export default function ChooseItemsScreen() {
   }, [clientId]);
 
   const handleSelectItem = (item) => {
-    // Ir a pantalla de detalles para ese ítem (peso, talla, cantidad, etc.)
     router.push(`orders/newOrder/chooseItemDetails?itemId=${item.id}&clientId=${clientId}`);
   };
 
-  // Cargamos del AsyncStorage si ya hay ítems seleccionados, etc.
   useEffect(() => {
     const loadSelected = async () => {
       try {
@@ -59,51 +58,44 @@ export default function ChooseItemsScreen() {
     router.push(`orders/newOrder/orderSummary?clientId=${client.id}`);
   };
 
-  const renderItem = ({ item }) => {
-    return (
-      <TouchableOpacity
-        style={styles.item}
-        onPress={() => handleSelectItem(item)}
-      >
-        <Text style={styles.itemName}>{item.name}</Text>
-        <Text>Precio base: ${item.price.toFixed(2)}</Text>
-        <Text>Tipo de Medida: {item.measureType}</Text>
-        {item.category && <Text>Categoría: {item.category}</Text>}
-      </TouchableOpacity>
-    );
-  };
+  const renderItem = ({ item }) => (
+    <Card style={styles.card} onPress={() => handleSelectItem(item)}>
+      <Card.Title title={item.name} />
+      <Card.Content>
+        <Paragraph>Precio base: ${item.price.toFixed(2)}</Paragraph>
+        <Paragraph>Tipo de Medida: {item.measureType}</Paragraph>
+        {item.category && <Paragraph>Categoría: {item.category}</Paragraph>}
+      </Card.Content>
+    </Card>
+  );
 
   if (!client) {
     return (
       <View style={styles.container}>
-        <Text>Cargando cliente...</Text>
+        <Paragraph>Cargando cliente...</Paragraph>
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Seleccionar Ítems para {client.name}</Text>
+      <Title style={styles.title}>Seleccionar Ítems para {client.name}</Title>
       <FlatList
         data={items}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
-        ListEmptyComponent={<Text>No hay ítems disponibles. Agrega nuevos ítems.</Text>}
+        ListEmptyComponent={<Paragraph>No hay ítems disponibles. Agrega nuevos ítems.</Paragraph>}
       />
-      <Button title="Siguiente" onPress={handleNext} />
+      <Button mode="contained" onPress={handleNext} style={styles.button}>
+        Siguiente
+      </Button>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
-  title: { fontSize: 20, marginBottom: 16, textAlign: 'center' },
-  item: {
-    padding: 15,
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
-    backgroundColor: '#fff',
-  },
-  itemName: { fontSize: 18, fontWeight: 'bold' },
+  title: { textAlign: 'center', marginBottom: 16 },
+  card: { marginBottom: 10 },
+  button: { marginTop: 20 },
 });

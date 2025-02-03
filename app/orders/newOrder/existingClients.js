@@ -1,15 +1,15 @@
-import { useRouter } from 'expo-router';
-import React from 'react';
-import { View, Text, Button, FlatList, StyleSheet } from 'react-native';
-import { useState, useEffect } from 'react';
+// app/orders/newOrder/existingClients.js
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { FlatList, Button, Title, Card, Paragraph } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect } from '@react-navigation/native';  // Añadir este import
+import { useRouter } from 'expo-router';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function ExistingClientsScreen() {
   const router = useRouter();
   const [clients, setClients] = useState([]);
 
-  // Reemplazar useEffect con useFocusEffect para manejar el enfoque de la pantalla
   useFocusEffect(
     React.useCallback(() => {
       const loadClients = async () => {
@@ -21,13 +21,11 @@ export default function ExistingClientsScreen() {
           console.log('Error cargando clientes:', error);
         }
       };
-
       loadClients();
     }, [])
   );
 
   const handleSelectClient = (client) => {
-    // Guardar el cliente seleccionado en AsyncStorage temporalmente
     AsyncStorage.setItem('selectedClient', JSON.stringify(client))
       .then(() => {
         router.push('orders/newOrder/chooseItems?clientId=' + client.id);
@@ -39,17 +37,19 @@ export default function ExistingClientsScreen() {
   };
 
   const renderClient = ({ item }) => (
-    <View style={styles.clientItem}>
-      <Text>{item.name} - {item.phone}</Text>
-      <Button title="Seleccionar" onPress={() => handleSelectClient(item)} />
-    </View>
+    <Card style={styles.card}>
+      <Card.Title title={item.name} subtitle={item.phone} />
+      <Card.Actions>
+        <Button onPress={() => handleSelectClient(item)}>Seleccionar</Button>
+      </Card.Actions>
+    </Card>
   );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Clientes Existentes</Text>
+      <Title style={styles.title}>Clientes Existentes</Title>
       {clients.length === 0 ? (
-        <Text>No hay clientes registrados.</Text>
+        <Paragraph>No hay clientes registrados.</Paragraph>
       ) : (
         <FlatList
           data={clients}
@@ -63,11 +63,6 @@ export default function ExistingClientsScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
-  title: { fontSize: 20, marginBottom: 10, textAlign: 'center' },
-  clientItem: {
-    marginBottom: 12,
-    padding: 15,
-    borderWidth: 1,
-    borderRadius: 8,
-  },
+  title: { textAlign: 'center', marginBottom: 10 },
+  card: { marginBottom: 12, padding: 10 },
 });

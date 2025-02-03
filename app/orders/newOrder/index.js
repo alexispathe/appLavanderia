@@ -1,23 +1,27 @@
 // app/orders/newOrder/index.js
-import { Link } from 'expo-router';
-import { View, Text, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Title, Button } from 'react-native-paper';
+import { useRouter } from 'expo-router';
 
 export default function NewOrderMenu() {
+  const router = useRouter();
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Nueva Orden</Text>
-      <Link href="orders/newOrder/addClient" style={styles.link}>
+      <Title style={styles.title}>Nueva Orden</Title>
+      <Button mode="contained" onPress={() => router.push('orders/newOrder/addClient')} style={styles.button}>
         Agregar Nuevo Cliente
-      </Link>
-      <Link href="orders/newOrder/existingClients" style={styles.link}>
+      </Button>
+      <Button mode="contained" onPress={() => router.push('orders/newOrder/existingClients')} style={styles.button}>
         Clientes Existentes
-      </Link>
+      </Button>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, justifyContent: 'center' },
-  title: { fontSize: 20, marginBottom: 20, textAlign: 'center' },
-  link: { color: 'blue', marginBottom: 10, textAlign: 'center' },
+  title: { textAlign: 'center', marginBottom: 20 },
+  button: { marginBottom: 10 },
 });

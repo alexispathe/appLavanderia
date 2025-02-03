@@ -1,9 +1,11 @@
 // app/orders/orderDetails.js
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { View, Text, Button, StyleSheet, FlatList, Alert } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Alert } from 'react-native';
+import { Title, Paragraph, Button, Card } from 'react-native-paper';
+import { FlatList } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 
 export default function OrderDetailsScreen() {
   const router = useRouter();
@@ -18,7 +20,7 @@ export default function OrderDetailsScreen() {
       try {
         const storedOrders = await AsyncStorage.getItem('orders');
         const ordersArray = storedOrders ? JSON.parse(storedOrders) : [];
-        const foundOrder = ordersArray.find((o) => o.id === orderId);
+        const foundOrder = ordersArray.find(o => o.id === orderId);
         if (foundOrder) {
           setOrder(foundOrder);
           setStatus(foundOrder.status || 'Pendiente');
@@ -41,15 +43,9 @@ export default function OrderDetailsScreen() {
     try {
       const storedOrders = await AsyncStorage.getItem('orders');
       let ordersArray = storedOrders ? JSON.parse(storedOrders) : [];
-      ordersArray = ordersArray.map((o) =>
+      ordersArray = ordersArray.map(o =>
         o.id === orderId
-          ? {
-              ...o,
-              status,
-              paymentStatus,
-              pickupStatus,
-              updatedAt: new Date().toISOString(),
-            }
+          ? { ...o, status, paymentStatus, pickupStatus, updatedAt: new Date().toISOString() }
           : o
       );
       await AsyncStorage.setItem('orders', JSON.stringify(ordersArray));
@@ -65,36 +61,38 @@ export default function OrderDetailsScreen() {
     const qty = parseFloat(item.quantity || '1');
     const subtotal = item.price * qty;
     return (
-      <View style={styles.orderItem}>
-        <Text style={styles.itemName}>{item.name}</Text>
-        <Text>Cantidad: {item.quantity} {item.measureType}</Text>
-        {item.size && <Text>Tamaño: {item.size}</Text>}
-        <Text>Precio Unitario: ${item.price.toFixed(2)}</Text>
-        <Text>Subtotal: ${subtotal.toFixed(2)}</Text>
-      </View>
+      <Card style={styles.orderItem}>
+        <Card.Title title={item.name} />
+        <Card.Content>
+          <Paragraph>Cantidad: {item.quantity} {item.measureType}</Paragraph>
+          {item.size && <Paragraph>Tamaño: {item.size}</Paragraph>}
+          <Paragraph>Precio Unitario: ${item.price.toFixed(2)}</Paragraph>
+          <Paragraph>Subtotal: ${subtotal.toFixed(2)}</Paragraph>
+        </Card.Content>
+      </Card>
     );
   };
 
   if (!order) {
     return (
       <View style={styles.container}>
-        <Text>Cargando detalles de la orden...</Text>
+        <Paragraph>Cargando detalles de la orden...</Paragraph>
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Detalles de Orden #{order.id}</Text>
-      <Text>Cliente: {order.clientName}</Text>
-      <Text>Teléfono: {order.clientPhone}</Text>
+      <Title style={styles.title}>Detalles de Orden #{order.id}</Title>
+      <Paragraph>Cliente: {order.clientName}</Paragraph>
+      <Paragraph>Teléfono: {order.clientPhone}</Paragraph>
       <FlatList
         data={order.items}
         keyExtractor={(item, index) => `${item.id}-${index}`}
         renderItem={renderItem}
       />
-      <Text style={styles.total}>Total: ${order.totalPrice.toFixed(2)}</Text>
-      <Text>Estado de la Orden:</Text>
+      <Paragraph style={styles.total}>Total: ${order.totalPrice.toFixed(2)}</Paragraph>
+      <Paragraph>Estado de la Orden:</Paragraph>
       <Picker
         selectedValue={status}
         style={styles.picker}
@@ -104,7 +102,7 @@ export default function OrderDetailsScreen() {
         <Picker.Item label="Lavando" value="Lavando" />
         <Picker.Item label="Terminado" value="Terminado" />
       </Picker>
-      <Text>Estado de Pago:</Text>
+      <Paragraph>Estado de Pago:</Paragraph>
       <Picker
         selectedValue={paymentStatus}
         style={styles.picker}
@@ -113,7 +111,7 @@ export default function OrderDetailsScreen() {
         <Picker.Item label="Pendiente" value="Pendiente" />
         <Picker.Item label="Pagado" value="Pagado" />
       </Picker>
-      <Text>Estado de Recogida:</Text>
+      <Paragraph>Estado de Recogida:</Paragraph>
       <Picker
         selectedValue={pickupStatus}
         style={styles.picker}
@@ -122,24 +120,21 @@ export default function OrderDetailsScreen() {
         <Picker.Item label="Pendiente" value="Pendiente" />
         <Picker.Item label="Recogido" value="Recogido" />
       </Picker>
-
-      <Button title="Actualizar Orden" onPress={handleUpdate} />
-      <Button title="Regresar a Órdenes" onPress={() => router.push('orders/index')} />
+      <Button mode="contained" onPress={handleUpdate} style={styles.button}>
+        Actualizar Orden
+      </Button>
+      <Button mode="outlined" onPress={() => router.push('orders/index')} style={styles.button}>
+        Regresar a Órdenes
+      </Button>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
-  title: { fontSize: 20, marginBottom: 10, textAlign: 'center' },
-  orderItem: {
-    padding: 10,
-    borderWidth: 1,
-    borderRadius: 6,
-    marginBottom: 10,
-    backgroundColor: '#f0f8ff',
-  },
-  itemName: { fontSize: 16, fontWeight: 'bold' },
+  title: { textAlign: 'center', marginBottom: 10 },
+  orderItem: { marginBottom: 10, backgroundColor: '#f0f8ff' },
   total: { fontSize: 18, fontWeight: 'bold', marginTop: 10 },
   picker: { height: 50, width: '100%', marginVertical: 10 },
+  button: { marginVertical: 10 },
 });

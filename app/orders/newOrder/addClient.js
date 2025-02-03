@@ -1,8 +1,9 @@
 // app/orders/newOrder/addClient.js
-import { useState } from 'react';
-import { useRouter } from 'expo-router';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, Alert } from 'react-native';
+import { TextInput, Button, Title } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
 
 export default function AddClientScreen() {
   const router = useRouter();
@@ -14,7 +15,6 @@ export default function AddClientScreen() {
       Alert.alert('Error', 'Por favor, completa todos los campos.');
       return;
     }
-
     try {
       const existingClients = await AsyncStorage.getItem('clients');
       let clientsArray = existingClients ? JSON.parse(existingClients) : [];
@@ -35,27 +35,32 @@ export default function AddClientScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Agregar Cliente</Text>
+      <Title style={styles.title}>Agregar Cliente</Title>
       <TextInput
-        style={styles.input}
-        placeholder="Nombre"
+        mode="outlined"
+        label="Nombre"
         value={name}
         onChangeText={setName}
+        style={styles.input}
       />
       <TextInput
-        style={styles.input}
-        placeholder="Teléfono"
+        mode="outlined"
+        label="Teléfono"
         keyboardType="phone-pad"
         value={phone}
         onChangeText={setPhone}
+        style={styles.input}
       />
-      <Button title="Guardar y Ver Clientes" onPress={handleAddClient} />
+      <Button mode="contained" onPress={handleAddClient} style={styles.button}>
+        Guardar y Ver Clientes
+      </Button>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, justifyContent: 'center' },
-  title: { fontSize: 20, marginBottom: 10, textAlign: 'center' },
-  input: { borderWidth: 1, marginBottom: 10, padding: 8, borderRadius: 4 },
+  title: { textAlign: 'center', marginBottom: 10 },
+  input: { marginBottom: 10 },
+  button: { marginTop: 10 },
 });

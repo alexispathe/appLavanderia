@@ -1,7 +1,8 @@
 // app/(tabs)/orders/index.js
-import { Link } from 'expo-router';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput } from 'react-native';
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Button, Title, TextInput, Card, Paragraph } from 'react-native-paper';
+import { FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from '@react-native-picker/picker';
 import { useRouter } from 'expo-router';
@@ -19,7 +20,6 @@ export default function OrdersScreen() {
         try {
           const storedOrders = await AsyncStorage.getItem('orders');
           const parsed = storedOrders ? JSON.parse(storedOrders) : [];
-          // Ordenar por fecha de creación descendente
           parsed.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
           setOrders(parsed);
         } catch (error) {
@@ -30,7 +30,7 @@ export default function OrdersScreen() {
     }, [])
   );
 
-  const filteredOrders = orders.filter((order) => {
+  const filteredOrders = orders.filter(order => {
     const matchesSearch =
       order.clientName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       order.clientPhone.includes(searchQuery);
@@ -39,31 +39,31 @@ export default function OrdersScreen() {
   });
 
   const renderOrder = ({ item }) => (
-    <TouchableOpacity
-      style={styles.orderItem}
-      onPress={() => router.push(`orders/orderDetails?orderId=${item.id}`)}
-    >
-      <Text style={styles.orderTitle}>Orden #{item.id}</Text>
-      <Text>Cliente: {item.clientName}</Text>
-      <Text>Estado: {item.status || 'Pendiente'}</Text>
-      <Text>Pago: {item.paymentStatus || 'Pendiente'}</Text>
-      <Text>Recogida: {item.pickupStatus || 'Pendiente'}</Text>
-    </TouchableOpacity>
+    <Card style={styles.card} onPress={() => router.push(`orders/orderDetails?orderId=${item.id}`)}>
+      <Card.Title title={`Orden #${item.id}`} />
+      <Card.Content>
+        <Paragraph>Cliente: {item.clientName}</Paragraph>
+        <Paragraph>Estado: {item.status || 'Pendiente'}</Paragraph>
+        <Paragraph>Pago: {item.paymentStatus || 'Pendiente'}</Paragraph>
+        <Paragraph>Recogida: {item.pickupStatus || 'Pendiente'}</Paragraph>
+      </Card.Content>
+    </Card>
   );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Gestión de Órdenes</Text>
-      <Link href="orders/newOrder" style={styles.link}>
+      <Title style={styles.title}>Gestión de Órdenes</Title>
+      <Button mode="contained" onPress={() => router.push('orders/newOrder')} style={styles.link}>
         Crear Nueva Orden
-      </Link>
+      </Button>
       <TextInput
-        style={styles.searchInput}
+        mode="outlined"
         placeholder="Buscar por cliente o teléfono"
         value={searchQuery}
         onChangeText={setSearchQuery}
+        style={styles.searchInput}
       />
-      <Text style={styles.label}>Filtrar por Estado:</Text>
+      <Paragraph style={styles.label}>Filtrar por Estado:</Paragraph>
       <Picker
         selectedValue={filterStatus}
         style={styles.picker}
@@ -75,7 +75,7 @@ export default function OrdersScreen() {
         <Picker.Item label="Terminado" value="Terminado" />
       </Picker>
       {filteredOrders.length === 0 ? (
-        <Text>No hay órdenes que coincidan con los criterios.</Text>
+        <Paragraph>No hay órdenes que coincidan con los criterios.</Paragraph>
       ) : (
         <FlatList
           data={filteredOrders}
@@ -89,17 +89,10 @@ export default function OrdersScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
-  title: { fontSize: 24, fontWeight: '600', marginBottom: 16, textAlign: 'center' },
-  link: { color: 'blue', marginBottom: 16, textAlign: 'center' },
-  orderItem: {
-    padding: 15,
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
-    backgroundColor: '#e6f7ff',
-  },
-  orderTitle: { fontSize: 18, fontWeight: 'bold' },
-  searchInput: { borderWidth: 1, padding: 8, borderRadius: 4, marginBottom: 10 },
+  title: { textAlign: 'center', marginBottom: 16 },
+  link: { marginBottom: 16 },
+  card: { marginBottom: 10, backgroundColor: '#e6f7ff' },
+  searchInput: { marginBottom: 10 },
   label: { marginTop: 10, marginBottom: 5 },
   picker: { height: 50, width: '100%', marginBottom: 20 },
 });

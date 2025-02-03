@@ -1,6 +1,7 @@
 // app/(tabs)/profile/index.js
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Title, Button, Paragraph } from 'react-native-paper';
 import { useAuth } from '../../../contexts/AuthContext';
 
 export default function ProfileScreen() {
@@ -8,29 +9,23 @@ export default function ProfileScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Perfil</Text>
+      <Title style={styles.title}>Perfil</Title>
       {user ? (
         <>
-          <Text>Usuario logueado: {user.email}</Text>
-          <Button title="Cerrar sesión" onPress={logout} />
+          <Paragraph>Usuario logueado: {user.email}</Paragraph>
+          <Button mode="contained" onPress={logout} style={styles.button}>
+            Cerrar sesión
+          </Button>
         </>
       ) : (
-        <Text>No estás autenticado</Text>
+        <Paragraph>No estás autenticado</Paragraph>
       )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1, 
-    padding: 20, 
-    justifyContent: 'center',
-  },
-  title: { 
-    fontSize: 24, 
-    fontWeight: 'bold', 
-    marginBottom: 16, 
-    textAlign: 'center' 
-  },
+  container: { flex: 1, padding: 20, justifyContent: 'center' },
+  title: { textAlign: 'center', marginBottom: 16 },
+  button: { marginTop: 10 },
 });
