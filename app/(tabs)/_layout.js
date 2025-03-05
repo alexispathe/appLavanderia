@@ -2,9 +2,7 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
 import { Platform } from 'react-native';
-import { HapticTab } from '../../components/HapticTab';
-import { IconSymbol } from '../../components/ui/IconSymbol';
-import TabBarBackground from '../../components/ui/TabBarBackground';
+import { Ionicons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { Colors } from '../../constants/Colors';
 import { useColorScheme } from '../../hooks/useColorScheme';
 
@@ -16,8 +14,6 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
           ios: {
             position: 'absolute',
@@ -30,43 +26,51 @@ export default function TabLayout() {
         name="home/index"
         options={{
           title: 'Inicio',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />,
         }}
       />
-
       <Tabs.Screen
-        name="orders"  
+        name="orders/index"  // Ajustado para que coincida con la estructura de carpetas
         options={{
           title: 'Órdenes',
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="list.bullet.rectangle.fill" color={color} />
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="clipboard-list" size={size} color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="items"  
+        name="items/index"  // Ajustado para que coincida con la estructura de carpetas
         options={{
           title: 'Ítems',
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="list.bullet.rectangle.fill" color={color} />
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="boxes" size={size} color={color} />
           ),
         }}
       />
-
       <Tabs.Screen
-        name="finance"
+        name="finance/index"  // Ajustado para que coincida con la estructura de carpetas
         options={{
           title: 'Finanzas',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="dollarsign.circle.fill" color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="finance" size={size} color={color} />
+          ),
         }}
       />
-
       <Tabs.Screen
         name="profile/index"
         options={{
           title: 'Perfil',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.fill" color={color} />,
+          tabBarIcon: ({ color, size }) => <Ionicons name="person" size={size} color={color} />,
         }}
+        
+      />
+      <Tabs.Screen
+        name="finance/closeCash"
+        options={{
+          title: 'Cierre caja',
+          tabBarIcon: ({ color, size }) => <Ionicons name="lock-closed-outline" size={size} color={color} />,
+        }}
+        
       />
     </Tabs>
   );
