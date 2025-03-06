@@ -38,7 +38,7 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="items/index"  // Ajustado para que coincida con la estructura de carpetas
         options={{
           title: 'Ítems',
@@ -46,7 +46,7 @@ export default function TabLayout() {
             <FontAwesome5 name="boxes" size={size} color={color} />
           ),
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="finance/index"  // Ajustado para que coincida con la estructura de carpetas
         options={{

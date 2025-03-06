@@ -10,7 +10,7 @@ export default function HomeScreen() {
     {
       title: 'Listar Ítems',
       description: 'Ver y gestionar los ítems existentes',
-      navigateTo: '/(tabs)/items',
+      navigateTo: '/(items)/',
     },
     {
       title: 'Gestionar Órdenes',

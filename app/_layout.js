@@ -76,8 +76,8 @@ function AuthOrAppStack() {
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       {/* Otras pantallas extras */}
-      <Stack.Screen name="items/addItem" options={{ title: 'Agregar Ítem' }} />
-      <Stack.Screen name="items/editItem" options={{ title: 'Editar Ítem' }} />
+      <Stack.Screen name="(items)/addItem" options={{ title: 'Agregar Ítem' }} />
+      <Stack.Screen name="(items)/editItem" options={{ title: 'Editar Ítem' }} />
       <Stack.Screen name="orders/orderDetails" options={{ title: 'Detalles de Orden' }} />
       <Stack.Screen name="orders/updateOrder" options={{ title: 'Actualizar Orden' }} />
       <Stack.Screen name="orders/newOrder/addClient" options={{ title: 'Agregar Cliente' }} />

@@ -77,7 +77,7 @@ export default function ItemsScreen() {
         ListEmptyComponent={<Paragraph>No hay ítems registrados.</Paragraph>}
       />
       <Button mode="contained" onPress={() => router.push('items/addItem')} style={styles.addButton}>
-        Agregar Nuevo Ítem
+        Agregar Nuevo Ítemss
       </Button>
     </View>
   );
