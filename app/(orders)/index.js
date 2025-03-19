@@ -1,4 +1,4 @@
-// app/(tabs)/orders/index.js
+// app/(orders)/index.js
 import React, { useState, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Title, TextInput, Card, Paragraph } from 'react-native-paper';

@@ -15,7 +15,7 @@ export default function HomeScreen() {
     {
       title: 'Gestionar Órdenes',
       description: 'Crear y gestionar órdenes de lavado',
-      navigateTo: '/(tabs)/orders',
+      navigateTo: '/(orders)/',
     },
     {
       title: 'Finanzas',

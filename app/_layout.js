@@ -13,14 +13,13 @@ import { useColorScheme } from '../hooks/useColorScheme';
 
 SplashScreen.preventAutoHideAsync();
 
-// Definición de tema personalizado para react-native-paper
 const customTheme = {
   ...PaperDefaultTheme,
   colors: {
     ...PaperDefaultTheme.colors,
-    primary: '#4A90E2',     // Azul calmado
-    accent: '#50E3C2',      // Verde agua
-    background: '#F5F5F5',  // Fondo claro
+    primary: '#4A90E2',
+    accent: '#50E3C2',
+    background: '#F5F5F5',
     surface: '#FFFFFF',
     text: '#333333',
   },
@@ -75,9 +74,13 @@ function AuthOrAppStack() {
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      {/* Otras pantallas extras */}
-      <Stack.Screen name="(items)/addItem" options={{ title: 'Agregar Ítem' }} />
-      <Stack.Screen name="(items)/editItem" options={{ title: 'Editar Ítem' }} />
+
+      {/* Pantallas de clientes */}
+      <Stack.Screen name="clients/addClient" options={{ title: 'Agregar Cliente' }} />
+      <Stack.Screen name="clients/editClient" options={{ title: 'Editar Cliente' }} />
+      <Stack.Screen name="clients/clientDetails" options={{ title: 'Detalles del Cliente' }} />
+
+      {/* Pantallas de órdenes */}
       <Stack.Screen name="orders/orderDetails" options={{ title: 'Detalles de Orden' }} />
       <Stack.Screen name="orders/updateOrder" options={{ title: 'Actualizar Orden' }} />
       <Stack.Screen name="orders/newOrder/addClient" options={{ title: 'Agregar Cliente' }} />
@@ -85,6 +88,12 @@ function AuthOrAppStack() {
       <Stack.Screen name="orders/newOrder/chooseItemDetails" options={{ title: 'Detalles del Ítem' }} />
       <Stack.Screen name="orders/newOrder/existingClients" options={{ title: 'Clientes Existentes' }} />
       <Stack.Screen name="orders/newOrder/orderSummary" options={{ title: 'Resumen de Orden' }} />
+
+      {/* Pantallas de personal */}
+      <Stack.Screen name="staff/addEmployee" options={{ title: 'Agregar Empleado' }} />
+      <Stack.Screen name="staff/editEmployee" options={{ title: 'Editar Empleado' }} />
+
+      {/* Otras pantallas extras */}
     </Stack>
   );
 }

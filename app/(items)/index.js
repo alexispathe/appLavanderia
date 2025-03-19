@@ -1,4 +1,4 @@
-// app/(tabs)/items/index.js
+// app/(items)/index.js
 import React, { useState, useCallback } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { Card, Title, Button, Paragraph } from 'react-native-paper';
