@@ -22,6 +22,16 @@ export default function HomeScreen() {
       description: 'Gestor de ingresos y cierre de caja',
       navigateTo: '/(tabs)/finance',
     },
+    {
+      title: 'Reportes',
+      description: 'Gestor de ingresos y cierre de caja',
+      navigateTo: '/(reports)',
+    },
+    {
+      title: 'Staff',
+      description: 'Gestor de ingresos y cierre de caja',
+      navigateTo: '/(staff)',
+    },
   ];
 
   return (

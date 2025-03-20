@@ -57,7 +57,7 @@ export default function ItemsScreen() {
         {item.category && <Paragraph>Categoría: {item.category}</Paragraph>}
       </Card.Content>
       <Card.Actions>
-        <Button onPress={() => router.navigate('items/editItem', { itemId: item.id })}>
+        <Button onPress={() => router.push(`(items)/editItem?itemId=${item.id}`)}>
           Editar
         </Button>
         <Button onPress={() => handleDelete(item.id)} color="red">
@@ -76,7 +76,7 @@ export default function ItemsScreen() {
         renderItem={renderItem}
         ListEmptyComponent={<Paragraph>No hay ítems registrados.</Paragraph>}
       />
-      <Button mode="contained" onPress={() => router.push('items/addItem')} style={styles.addButton}>
+      <Button mode="contained" onPress={() => router.push('(items)/addItem')} style={styles.addButton}>
         Agregar Nuevo Ítemss
       </Button>
     </View>

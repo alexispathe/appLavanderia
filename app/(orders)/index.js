@@ -39,7 +39,7 @@ export default function OrdersScreen() {
   });
 
   const renderOrder = ({ item }) => (
-    <Card style={styles.card} onPress={() => router.push(`orders/orderDetails?orderId=${item.id}`)}>
+    <Card style={styles.card} onPress={() => router.push(`(orders)/orderDetails?orderId=${item.id}`)}>
       <Card.Title title={`Orden #${item.id}`} />
       <Card.Content>
         <Paragraph>Cliente: {item.clientName}</Paragraph>
@@ -53,7 +53,7 @@ export default function OrdersScreen() {
   return (
     <View style={styles.container}>
       <Title style={styles.title}>Gestión de Órdenes</Title>
-      <Button mode="contained" onPress={() => router.push('orders/newOrder')} style={styles.link}>
+      <Button mode="contained" onPress={() => router.push('(orders)/newOrder')} style={styles.link}>
         Crear Nueva Orden
       </Button>
       <TextInput

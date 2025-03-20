@@ -56,7 +56,7 @@ export default function StaffScreen() {
         <Paragraph>Registrado: {new Date(item.createdAt).toLocaleDateString()}</Paragraph>
       </Card.Content>
       <Card.Actions>
-        <Button onPress={() => router.push(`staff/editEmployee?employeeId=${item.id}`)}>
+        <Button onPress={() => router.push(`(staff)/editEmployee?employeeId=${item.id}`)}>
           Editar
         </Button>
         <Button onPress={() => handleDelete(item.id)} color="red">
@@ -69,7 +69,7 @@ export default function StaffScreen() {
   return (
     <View style={styles.container}>
       <Title style={styles.title}>Personal</Title>
-      <Button mode="contained" onPress={() => router.push('staff/addEmployee')} style={styles.addButton}>
+      <Button mode="contained" onPress={() => router.push('(staff)/addEmployee')} style={styles.addButton}>
         Agregar Empleado
       </Button>
       <FlatList
