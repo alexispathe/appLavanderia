@@ -1,6 +1,6 @@
 // app/(tabs)/home/index.js
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { Title, Card, Button, Paragraph } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 
@@ -32,9 +32,16 @@ export default function HomeScreen() {
       description: 'Gestor de ingresos y cierre de caja',
       navigateTo: '/(staff)',
     },
+    {
+      title: 'Clientes',
+      description: 'Gestor de ingresos y cierre de caja',
+      navigateTo: '/(clients)',
+    },
   ];
 
   return (
+    <ScrollView>
+
     <View style={styles.container}>
       <Title style={styles.title}>Menú Principal</Title>
       {menuOptions.map((option, index) => (
@@ -51,6 +58,8 @@ export default function HomeScreen() {
         </Card>
       ))}
     </View>
+    </ScrollView>
+
   );
 }
 

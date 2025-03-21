@@ -56,10 +56,10 @@ export default function ClientsScreen() {
         <Paragraph>Registrado: {new Date(item.createdAt).toLocaleDateString()}</Paragraph>
       </Card.Content>
       <Card.Actions>
-        <Button onPress={() => router.push(`clients/clientDetails?clientId=${item.id}`)}>
+        <Button onPress={() => router.push(`(clients)/clientDetail?clientId=${item.id}`)}>
           Detalles
         </Button>
-        <Button onPress={() => router.push(`clients/editClient?clientId=${item.id}`)}>
+        <Button onPress={() => router.push(`(clients)/clientEdit?clientId=${item.id}`)}>
           Editar
         </Button>
         <Button onPress={() => handleDelete(item.id)} color="red">
@@ -72,7 +72,7 @@ export default function ClientsScreen() {
   return (
     <View style={styles.container}>
       <Title style={styles.title}>Clientes</Title>
-      <Button mode="contained" onPress={() => router.push('clients/addClient')} style={styles.addButton}>
+      <Button mode="contained" onPress={() => router.push('(clients)/addClient')} style={styles.addButton}>
         Agregar Cliente
       </Button>
       <FlatList

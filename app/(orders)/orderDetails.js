@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Title, Card, Paragraph, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 
 export default function OrderDetailsScreen() {
-  const { orderId } = useSearchParams();
+  const { orderId } = useLocalSearchParams();
   const router = useRouter();
   const [order, setOrder] = useState(null);
 

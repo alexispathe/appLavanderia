@@ -63,39 +63,40 @@ function AuthOrAppStack() {
   if (!user) {
     return (
       <Stack>
-        <Stack.Screen name="/index.js" options={{ headerShown: false }} />
+        <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)/login" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)/register" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)/resetPassword" options={{ title: 'Restablecer Contraseña' }} />
+        <Stack.Screen name="(auth)/resetPassword" options={{ headerShown: false}} />
       </Stack>
     );
   }
 
   return (
     <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
+      <Stack.Screen name="(items)/index" options={{ headerShown: false }} />
+      <Stack.Screen name="(items)/editItem" options={{ headerShown: false }} />
+      <Stack.Screen name="(items)/addItem" options={{ headerShown: false }} />
 
       {/* Pantallas de clientes */}
-      <Stack.Screen name="clients/addClient" options={{ title: 'Agregar Cliente' }} />
-      <Stack.Screen name="clients/editClient" options={{ title: 'Editar Cliente' }} />
-      <Stack.Screen name="clients/clientDetails" options={{ title: 'Detalles del Cliente' }} />
+
+      <Stack.Screen name="(clients)/index" options={{ headerShown: false }} />
+      <Stack.Screen name="(clients)/clientDetail" options={{ headerShown: false }} />
+      <Stack.Screen name="(clients)/clientEdit" options={{ headerShown: false }} />
+
 
       {/* Pantallas de órdenes */}
-      <Stack.Screen name="orders/orderDetails" options={{ title: 'Detalles de Orden' }} />
-      <Stack.Screen name="orders/updateOrder" options={{ title: 'Actualizar Orden' }} />
-      <Stack.Screen name="orders/newOrder/addClient" options={{ title: 'Agregar Cliente' }} />
-      <Stack.Screen name="orders/newOrder/chooseItems" options={{ title: 'Elegir Ítems' }} />
-      <Stack.Screen name="orders/newOrder/chooseItemDetails" options={{ title: 'Detalles del Ítem' }} />
-      <Stack.Screen name="orders/newOrder/existingClients" options={{ title: 'Clientes Existentes' }} />
-      <Stack.Screen name="orders/newOrder/orderSummary" options={{ title: 'Resumen de Orden' }} />
-      {/* <Stack.Screen name="orders/newOrder" options={{ title: 'Nuevo Pedido' }} />
-      <Stack.Screen name="orders/orderDetails" options={{ title: 'Detalles de la Orden' }} /> */}
+
+      <Stack.Screen name="(orders)/index" options={{ headerShown: false }} />
+      <Stack.Screen name="(orders)/newOrder/index" options={{ headerShown: false }} />
+      <Stack.Screen name="(orders)/orderDetails" options={{ headerShown: false }} />
+
+      <Stack.Screen name="(reports)/index" options={{ headerShown: false }} />
 
       {/* Pantallas de personal */}
-      <Stack.Screen name="staff/addEmployee" options={{ title: 'Agregar Empleado' }} />
-      <Stack.Screen name="staff/editEmployee" options={{ title: 'Editar Empleado' }} />
+      <Stack.Screen name="(staff)/index" options={{ headerShown: false }} />
+      <Stack.Screen name="(staff)/addEmployee" options={{ headerShown: false }} />
 
-      {/* Otras pantallas extras */}
     </Stack>
   );
 }
